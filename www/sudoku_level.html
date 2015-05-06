@@ -32,39 +32,34 @@
                 border-collapse: collapse;
             }
 
-            table, th, td {
+            td {
                 border: 1px solid black;
+                width: 5px;
+                height: 5px;
             }
+
+
         </style>
     </head>
     <body>
+        <script type="text/javascript" src="js/sudoku.js"></script>
 
         <p>Sudoku-ID/Name</p>
 
-        <table>
-            <tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
-            <tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
-            <tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
-            <tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
-            <tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
-            <tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
-            <tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
-            <tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
-            <tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
-        </table>
+        <script>
+            displayTestSudoku();
+        </script>
 
-        <button>Zurück</button>
-        <button>Vorwärts</button>
+        <button id='back' onclick="stepBack()">Zurück</button>
+        <button id='forward' onclick="stepForward()">Vorwärts</button>
 
         <p>Zeit: 00:00</p>
 
-        <table>
-            <tr><td><button>0</button></td><td><button>0</button></td><td><button>0</button></td></tr>
-            <tr><td><button>0</button></td><td><button>0</button></td><td><button>0</button></td></tr>
-            <tr><td><button>0</button></td><td><button>0</button></td><td><button>0</button></td></tr>
-        </table>
+        <script type="text/javascript">
+            displayButtons();
+            init();
+        </script>
 
-        
         <script type="text/javascript" src="js/index.js"></script>
         <script type="text/javascript">
             app.initialize();
