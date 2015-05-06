@@ -23,6 +23,31 @@ function displayTestSudoku() {
 	document.write("</table>");
 }
 
+function displaySudoku() {
+	//window.localStorage.getItem("sudokus").sudokus[0].currentRows[rows].cells[i]
+	var jsonItem = JSON.parse(window.localStorage.getItem("sudokus"));
+
+	document.write("<table id='sudoku-grid'>");
+	for (var rows = 0; rows < 9; rows++) {
+		
+		document.write("<tr>");
+
+		for (var i = 0; i < 9; i++) {
+			var number = jsonItem.sudokus[0].currentRows[rows].cells[i].number;
+
+			if (number == null) {
+				document.write("<td onclick='setCurrentCell(this)'>");
+			} else {
+				document.write("<td>");
+				document.write(number);
+			}
+			document.write("</td>");
+		};
+		document.write("</tr>");
+	};
+	document.write("</table>");
+}
+
 function setCurrentCell(object) {
 	var tds = document.getElementsByTagName("td");
 
