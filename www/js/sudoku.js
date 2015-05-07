@@ -7,6 +7,21 @@ function init() {
 	sudokuStates.push(currentSudokuState);
 }
 
+function getSearchParameters() {
+              var prmstr = window.location.search.substr(1);
+              return prmstr != null && prmstr != "" ? transformToAssocArray(prmstr) : {};
+        }
+
+function transformToAssocArray( prmstr ) {
+    var params = {};
+    var prmarr = prmstr.split("&");
+    for ( var i = 0; i < prmarr.length; i++) {
+        var tmparr = prmarr[i].split("=");
+        params[tmparr[0]] = tmparr[1];
+    }
+    return params;
+}
+
 function displayTestSudoku() {
 	document.write("<table id='sudoku-grid'>");
 	for (var rows = 0; rows < 9; rows++) {
@@ -25,7 +40,14 @@ function displayTestSudoku() {
 
 function displaySudoku() {
 	//window.localStorage.getItem("sudokus").sudokus[0].currentRows[rows].cells[i]
-	var jsonItem = JSON.parse(window.localStorage.getItem("sudokus"));
+	var jsonItem = JSON.parse(window.localStorage.getItem("sudokus")).sudokus;
+	var id = getSearchParameters()['id'];
+	var currentSudoku;
+	for (var i = 0; i < jsonItem.length; i++) {
+		if (jsonItem[i].id == id) {
+			currentSudoku = jsonItem[i];
+		}
+	};
 
 	document.write("<table id='sudoku-grid'>");
 	for (var rows = 0; rows < 9; rows++) {
@@ -33,7 +55,7 @@ function displaySudoku() {
 		document.write("<tr>");
 
 		for (var i = 0; i < 9; i++) {
-			var number = jsonItem.sudokus[0].currentRows[rows].cells[i].number;
+			var number = currentSudoku.currentRows[rows].cells[i].number;
 
 			if (number == null) {
 				document.write("<td onclick='setCurrentCell(this)'>");

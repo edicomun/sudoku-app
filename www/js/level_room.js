@@ -15,7 +15,7 @@ function transformToAssocArray( prmstr ) {
 
 
 function getDifficulty() {
-    var difficulty = params['difficulty'];
+    var difficulty = getSearchParameters()['difficulty'];
     return difficulty;
 }
 
