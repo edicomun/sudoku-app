@@ -609,14 +609,54 @@
             ]
         }
     ]
-}; 
+};
 
+
+sudokusJson.sudokus[sudokusJson.sudokus.length] = newSudokuInJson("111111111111111111111111111111111111111111111111111111111111111111111111111111---","easy","002");
 
   var KEY_SUDOKUS = "sudokus";
 
     if (window.localStorage.getItem(KEY_SUDOKUS) == null) {
       window.localStorage.setItem(KEY_SUDOKUS,JSON.stringify(sudokusJson));
     };
+
+
+    function newSudokuInJson(inputNumbers, difficulty, id) {
+        var sudoku = {};
+        sudoku.id = id;
+        sudoku.difficulty = difficulty;
+        sudoku.time = "00:00:00";
+        sudoku.amountMistakes = 0;
+        sudoku.state = "not started";
+        sudoku.initRows = [];
+        sudoku.currentRows = [];
+        for (var i = 0; i < 9; i++) {
+            sudoku.initRows[i] = {};
+            sudoku.initRows[i].cells = [];
+            sudoku.currentRows[i] = {};
+            sudoku.currentRows[i].cells = [];
+        };
+        var inputCounter = 0;
+
+        for (var initRowsCounter = 0; initRowsCounter < 9; initRowsCounter++) {
+            for (var cellCounter = 0; cellCounter < 9; cellCounter++) {
+                var numberOrNull;
+                var currentCharacter = inputNumbers.charAt(inputCounter);
+                if (currentCharacter == "-") {
+                    numberOrNull = null;
+                } else {
+                    numberOrNull = currentCharacter;
+                };
+                sudoku.initRows[initRowsCounter].cells[cellCounter] = {};
+                sudoku.initRows[initRowsCounter].cells[cellCounter].number = numberOrNull;
+                sudoku.currentRows[initRowsCounter].cells[cellCounter] = {};
+                sudoku.currentRows[initRowsCounter].cells[cellCounter].number = numberOrNull;
+                inputCounter++;
+            };
+        };
+
+        return sudoku;
+    }
 </script>
     <p><a href="./difficulty_levels.html">Spielen</a></p>
     <p><a href="./settings.html">Einstellungen</a></p>
