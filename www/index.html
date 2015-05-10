@@ -36,7 +36,7 @@
   </head>
   <body>
     <script type="text/javascript">
-        function newSudokuInJson(inputNumbers, difficulty, id) {
+        function newSudokuInJson(inputNumbers, difficulty, id, goalNumbers) {
         var sudoku = {};
         sudoku.id = id;
         sudoku.difficulty = difficulty;
@@ -45,27 +45,39 @@
         sudoku.state = "not started";
         sudoku.initRows = [];
         sudoku.currentRows = [];
+        sudoku.goalRows = [];
         for (var i = 0; i < 9; i++) {
             sudoku.initRows[i] = {};
             sudoku.initRows[i].cells = [];
             sudoku.currentRows[i] = {};
             sudoku.currentRows[i].cells = [];
+            sudoku.goalRows[i] = {};
+            sudoku.goalRows[i].cells = [];
         };
         var inputCounter = 0;
 
         for (var initRowsCounter = 0; initRowsCounter < 9; initRowsCounter++) {
             for (var cellCounter = 0; cellCounter < 9; cellCounter++) {
                 var numberOrNull;
+                var numberOrNullGoal;
                 var currentCharacter = inputNumbers.charAt(inputCounter);
+                var currentCharacterGoal = goalNumbers.charAt(inputCounter);
                 if (currentCharacter == "-") {
                     numberOrNull = null;
                 } else {
                     numberOrNull = currentCharacter;
                 };
+                if (currentCharacterGoal == "-") {
+                    numberOrNullGoal = null;
+                } else {
+                    numberOrNullGoal = currentCharacterGoal;
+                };
                 sudoku.initRows[initRowsCounter].cells[cellCounter] = {};
                 sudoku.initRows[initRowsCounter].cells[cellCounter].number = numberOrNull;
                 sudoku.currentRows[initRowsCounter].cells[cellCounter] = {};
                 sudoku.currentRows[initRowsCounter].cells[cellCounter].number = numberOrNull;
+                sudoku.goalRows[initRowsCounter].cells[cellCounter] = {};
+                sudoku.goalRows[initRowsCounter].cells[cellCounter].number = numberOrNullGoal;
                 inputCounter++;
             };
         };
@@ -75,7 +87,8 @@
 
 
 
-    
+    var sudokusJson = {"sudokus":[]}; 
+    /*
     var sudokusJson =
     {
     "sudokus": [
@@ -649,10 +662,10 @@
             ]
         }
     ]
-};
+};*/
 
 
-sudokusJson.sudokus[sudokusJson.sudokus.length] = newSudokuInJson("111111111111111111111111111111111111111111111111111111111111111111111111111111---","easy","002");
+sudokusJson.sudokus[sudokusJson.sudokus.length] = newSudokuInJson("53--7----6--195----98----6-8---6---34--8-3--17---2---6-6----28----419--5----8--79","easy","002","534678912672195348198342567859761423426853791713924856961537284287419635345286179");
 
   var KEY_SUDOKUS = "sudokus";
 

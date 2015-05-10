@@ -14,6 +14,8 @@ for (var i = 0; i < jsonItem.length; i++) {
 	}
 };
 var initialCurrentSudokuTime = currentSudoku.time;
+var currentRow;
+var currentColumn;
 
 var myVar = setInterval(function () {displayTime()}, 1000);
 
@@ -63,22 +65,6 @@ function transformToAssocArray( prmstr ) {
     return params;
 }
 
-function displayTestSudoku() {
-	document.write("<table id='sudoku-grid'>");
-	for (var rows = 0; rows < 9; rows++) {
-		
-		document.write("<tr>");
-
-		for (var i = 0; i < 9; i++) {
-			document.write("<td onclick='setCurrentCell(this)'>");
-			document.write("0");
-			document.write("</td>");
-		};
-		document.write("</tr>");
-	};
-	document.write("</table>");
-}
-
 function displaySudoku() {
 
 	document.write("<table id='sudoku-grid'>");
@@ -87,16 +73,22 @@ function displaySudoku() {
 		document.write("<tr>");
 
 		for (var i = 0; i < 9; i++) {
-			var number = currentSudoku.currentRows[rows].cells[i].number;
+			var initNumber = currentSudoku.initRows[rows].cells[i].number;
+			var currentNumber = currentSudoku.currentRows[rows].cells[i].number;
 
-			if (number == null) {
-				document.write("<td onclick='setCurrentCell(this)'>");
-			} else {
+			if(initNumber == null && currentNumber == null) {
+				document.write("<td onclick='setCurrentCell(this, "+rows+", "+i+")'>");
+			} else if (initNumber == null && currentNumber != null) {
+				document.write("<td onclick='setCurrentCell(this, "+rows+", "+i+")'>");
+				document.write(currentNumber);
+			} else if (initNumber != null && currentNumber != null) {
 				document.write("<td class='grey'>");
-				document.write(number);
+				document.write(initNumber);
 			}
-			document.write("</td>");
+
 		};
+
+
 		document.write("</tr>");
 	};
 	document.write("</table>");
@@ -107,13 +99,17 @@ function displaySudokuName() {
 	document.write("<p>Sudoku#"+id+"</p>");
 }
 
-function setCurrentCell(object) {
+function setCurrentCell(object,row,column) {
 	var tds = document.getElementsByTagName("td");
 
 	for(var i = 0; i < tds.length; i++) {
 	   tds[i].style.backgroundColor = "white";
 	}
 	currentCell = object;
+	currentRow = row;
+	currentColumn = column;
+
+
 	currentCell.style.backgroundColor = "yellow";
 }
 
@@ -138,6 +134,7 @@ function displayButtons() {
 function insertValue(number) {
 	if (currentCell != null) {
 		currentCell.innerHTML = number;
+		currentSudoku.currentRows[currentRow].cells[currentColumn].number = number;
 		currentCell.style.backgroundColor = null;
 		currentCell = null;
 		var currentSudokuState = document.getElementById('sudoku-grid').outerHTML;
@@ -145,6 +142,14 @@ function insertValue(number) {
 		currentSudokuStatePosition = sudokuStates.length;
 	}
 
+	validateSudoku();
+
+}
+
+function validateSudoku() {
+	if(currentSudoku.currentRows[currentRow].cells[currentColumn].number != currentSudoku.goalRows[currentRow].cells[currentColumn].number) {
+		currentSudoku.amountMistakes++;
+	}
 }
 
 function stepBack() {
