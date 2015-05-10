@@ -38,24 +38,31 @@
                 height: 5px;
             }
 
+            .grey {
+                background-color: #cccccc;
+            }
+
 
         </style>
     </head>
     <body>
         <script type="text/javascript" src="js/sudoku.js"></script>
 
-        <a href="javascript:history.back()">Zurück</a>
-
-        <p>Sudoku-ID/Name</p>
-
+        <a href="javascript:history.back()" onclick="saveInJSON()">Zurück</a>
+        
         <script>
+            displaySudokuName();
             displaySudoku();
         </script>
 
         <button id='back' onclick="stepBack()">Zurück</button>
         <button id='forward' onclick="stepForward()">Vorwärts</button>
 
-        <p>Zeit: 00:00</p>
+        <div id="time">
+            <script>
+                document.write('<p>Zeit: '+getNewTime()+'</p>');
+            </script>
+        </div>
 
         <script type="text/javascript">
             displayButtons();

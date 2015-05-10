@@ -2,15 +2,56 @@ var currentCell;
 var sudokuStates = [];
 var currentSudokuStatePosition;
 
+var startTime = new Date();
+var jsonItem = JSON.parse(window.localStorage.getItem("sudokus")).sudokus;
+var id = getSearchParameters()['id'];
+var jsonItemId;
+var currentSudoku;
+for (var i = 0; i < jsonItem.length; i++) {
+	if (jsonItem[i].id == id) {
+		jsonItemId = i;
+		currentSudoku = jsonItem[i];
+	}
+};
+var initialCurrentSudokuTime = currentSudoku.time;
+
+var myVar = setInterval(function () {displayTime()}, 1000);
+
+function getNewTime() {
+
+	var endTime = new Date();
+
+	var str = endTime.toJSON();
+	var patt = new RegExp("^.*T");
+	var begin = patt.exec(str);
+	var currentSudokuTime = new Date(begin+initialCurrentSudokuTime+"Z");
+
+	var timeDifference = new Date(endTime - startTime);
+	currentSudokuTime.setTime(currentSudokuTime.getTime() + timeDifference.getTime());
+
+
+	str = currentSudokuTime.toJSON();
+	patt = new RegExp("[0-9]{2}:[0-9]{2}:[0-9]{2}");
+	currentSudoku.time = patt.exec(str);
+	return currentSudoku.time;
+}
+
+
+function displayTime() {
+	var deltaTime = getNewTime();
+	var time = document.getElementById("time");
+	time.innerHTML = "<p>Zeit: "+deltaTime+"</p>";
+}
+
 function init() {
 	var currentSudokuState = document.getElementById('sudoku-grid').outerHTML;
 	sudokuStates.push(currentSudokuState);
 }
 
 function getSearchParameters() {
-              var prmstr = window.location.search.substr(1);
-              return prmstr != null && prmstr != "" ? transformToAssocArray(prmstr) : {};
-        }
+      var prmstr = window.location.search.substr(1);
+      return prmstr != null && prmstr != "" ? transformToAssocArray(prmstr) : {};
+}
 
 function transformToAssocArray( prmstr ) {
     var params = {};
@@ -39,15 +80,6 @@ function displayTestSudoku() {
 }
 
 function displaySudoku() {
-	//window.localStorage.getItem("sudokus").sudokus[0].currentRows[rows].cells[i]
-	var jsonItem = JSON.parse(window.localStorage.getItem("sudokus")).sudokus;
-	var id = getSearchParameters()['id'];
-	var currentSudoku;
-	for (var i = 0; i < jsonItem.length; i++) {
-		if (jsonItem[i].id == id) {
-			currentSudoku = jsonItem[i];
-		}
-	};
 
 	document.write("<table id='sudoku-grid'>");
 	for (var rows = 0; rows < 9; rows++) {
@@ -60,7 +92,7 @@ function displaySudoku() {
 			if (number == null) {
 				document.write("<td onclick='setCurrentCell(this)'>");
 			} else {
-				document.write("<td>");
+				document.write("<td class='grey'>");
 				document.write(number);
 			}
 			document.write("</td>");
@@ -68,6 +100,11 @@ function displaySudoku() {
 		document.write("</tr>");
 	};
 	document.write("</table>");
+}
+
+function displaySudokuName() {
+	var id = getSearchParameters()['id']
+	document.write("<p>Sudoku#"+id+"</p>");
 }
 
 function setCurrentCell(object) {
@@ -107,6 +144,7 @@ function insertValue(number) {
 		sudokuStates.push(currentSudokuState);
 		currentSudokuStatePosition = sudokuStates.length;
 	}
+
 }
 
 function stepBack() {
@@ -123,6 +161,20 @@ function stepForward() {
 		sudokuGrid.innerHTML = sudokuStates[currentSudokuStatePosition];
 		currentSudokuStatePosition++;
 	}
+}
+
+function saveInJSON() {
+	if (currentSudoku.state = 'not started') {
+		currentSudoku.state = 'started';
+	}
+
+
+
+	jsonItem[jsonItemId] = currentSudoku;
+	var preJSON = {"sudokus":jsonItem};
+	window.localStorage.setItem("sudokus",JSON.stringify(preJSON));
+
+
 }
 
 
