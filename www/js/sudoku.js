@@ -150,6 +150,40 @@ function validateSudoku() {
 	if(currentSudoku.currentRows[currentRow].cells[currentColumn].number != currentSudoku.goalRows[currentRow].cells[currentColumn].number) {
 		currentSudoku.amountMistakes++;
 	}
+
+	if(allFieldsAreFilled()) {
+		if(fieldsAreFilledCorrect()) {
+			alert("Super, du hast das Sudoku richtig ausgefüllt.");
+			currentSudoku.state = "finished";
+			alert("currentSudoku.state: "+currentSudoku.state);
+		} else {
+			alert("Du hast das Sudoku nicht korrekt ausgefüllt. Korrigiere deine Eingaben.");
+		}
+	}
+}
+
+function fieldsAreFilledCorrect() {
+	var result = true;
+	for (var rows = 0; rows < 9; rows++) {
+		for (var column = 0; column < 9; column++) {
+			if(currentSudoku.currentRows[rows].cells[column].number != currentSudoku.goalRows[rows].cells[column].number) {
+				result = false;
+			}
+		};
+	};
+	return result;
+}
+
+function allFieldsAreFilled() {
+	var result = true;
+	for (var rows = 0; rows < 9; rows++) {
+		for (var column = 0; column < 9; column++) {
+			if(currentSudoku.currentRows[rows].cells[column].number == null) {
+				result = false;
+			}
+		};
+	};
+	return result;
 }
 
 function stepBack() {
@@ -169,11 +203,9 @@ function stepForward() {
 }
 
 function saveInJSON() {
-	if (currentSudoku.state = 'not started') {
+	if (currentSudoku.state == 'not started') {
 		currentSudoku.state = 'started';
 	}
-
-
 
 	jsonItem[jsonItemId] = currentSudoku;
 	var preJSON = {"sudokus":jsonItem};

@@ -28,7 +28,11 @@ function displaySudokus() {
             document.write("<fieldset>");
             document.write("<p>Id: <a href='sudoku_level.html?id="+sudokus[i].id+"'>"+sudokus[i].id+"</a></p>");
             document.write("<p>Zeit: "+sudokus[i].time+"</p>");
-            document.write("<p>Fehler: "+sudokus[i].amountMistakes+"</p>");
+            if(sudokus[i].state != "finished") {
+                document.write("<p>Fehler: -</p>");    
+            } else {
+                document.write("<p>Fehler: "+sudokus[i].amountMistakes+"</p>");
+            }
             document.write("<p>Status: "+sudokus[i].state+"</p>");
             document.write("</fieldset>");
         };
