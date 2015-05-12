@@ -77,12 +77,12 @@ function displaySudoku() {
 			var currentNumber = currentSudoku.currentRows[rows].cells[i].number;
 
 			if(initNumber == null && currentNumber == null) {
-				document.write("<td onclick='setCurrentCell(this, "+rows+", "+i+")'>");
+				document.write("<td id='r"+rows+"c"+i+"' onclick='setCurrentCell(this, "+rows+", "+i+")'>");
 			} else if (initNumber == null && currentNumber != null) {
-				document.write("<td onclick='setCurrentCell(this, "+rows+", "+i+")'>");
+				document.write("<td id='r"+rows+"c"+i+"' onclick='setCurrentCell(this, "+rows+", "+i+")'>");
 				document.write(currentNumber);
 			} else if (initNumber != null && currentNumber != null) {
-				document.write("<td class='grey'>");
+				document.write("<td id='r"+rows+"c"+i+"' class='grey'>");
 				document.write(initNumber);
 			}
 
@@ -102,8 +102,11 @@ function displaySudokuName() {
 function setCurrentCell(object,row,column) {
 	var tds = document.getElementsByTagName("td");
 
-	for(var i = 0; i < tds.length; i++) {
+	/*for(var i = 0; i < tds.length; i++) {
 	   tds[i].style.backgroundColor = "white";
+	}*/
+	if(currentRow != null && currentColumn != null) {
+		document.getElementById("r"+currentRow+"c"+currentColumn).style.backgroundColor = "white";
 	}
 	currentCell = object;
 	currentRow = row;
