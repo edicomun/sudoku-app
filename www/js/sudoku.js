@@ -77,12 +77,12 @@ function displaySudoku() {
 			var currentNumber = currentSudoku.currentRows[rows].cells[i].number;
 
 			if(initNumber == null && currentNumber == null) {
-				document.write("<td id='r"+rows+"c"+i+"' onclick='setCurrentCell(this, "+rows+", "+i+")'>");
+				document.write("<td id='r"+rows+"c"+i+"'  onclick='setCurrentCell(this, "+rows+", "+i+")'>");
 			} else if (initNumber == null && currentNumber != null) {
-				document.write("<td id='r"+rows+"c"+i+"' onclick='setCurrentCell(this, "+rows+", "+i+")'>");
+				document.write("<td id='r"+rows+"c"+i+"'  onclick='setCurrentCell(this, "+rows+", "+i+")'>");
 				document.write(currentNumber);
 			} else if (initNumber != null && currentNumber != null) {
-				document.write("<td id='r"+rows+"c"+i+"' class='grey'>");
+				document.write("<td id='r"+rows+"c"+i+"'  class='grey'>");
 				document.write(initNumber);
 			}
 
