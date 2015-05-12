@@ -158,7 +158,6 @@ function validateSudoku() {
 		if(fieldsAreFilledCorrect()) {
 			alert("Super, du hast das Sudoku richtig ausgefüllt.");
 			currentSudoku.state = "finished";
-			alert("currentSudoku.state: "+currentSudoku.state);
 		} else {
 			alert("Du hast das Sudoku nicht korrekt ausgefüllt. Korrigiere deine Eingaben.");
 		}
